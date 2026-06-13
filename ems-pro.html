@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMS Pro — Employee Management System</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#f8f9fc;--bg2:#ffffff;--bg3:#eef1f7;--text:#0f1623;--text2:#4a5568;--text3:#8896a8;
+--blue:#185FA5;--blue2:#0C447C;--blue3:#dbeafe;--border:#e2e8f0;--card:#ffffff;
+--hero-bg:#0d1b2e;--nav-bg:rgba(255,255,255,0.96);--nav-border:#e2e8f0;
+}
+[data-theme="dark"]{
+--bg:#0d1117;--bg2:#161b22;--bg3:#1c2333;--text:#e6edf3;--text2:#8b949e;--text3:#6e7681;
+--blue:#58a6ff;--blue2:#1f6feb;--blue3:#0d2748;--border:#30363d;--card:#161b22;
+--hero-bg:#010409;--nav-bg:rgba(13,17,23,0.96);--nav-border:#30363d;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;transition:background .3s,color .3s}
+
+/* NAV */
+.topnav{position:sticky;top:0;z-index:200;background:var(--nav-bg);border-bottom:1px solid var(--nav-border);backdrop-filter:blur(14px);padding:0 2.5rem;display:flex;align-items:center;justify-content:space-between;height:62px}
+.nav-brand{display:flex;align-items:center;gap:10px}
+.nav-logo{width:36px;height:36px;background:var(--blue);border-radius:9px;display:flex;align-items:center;justify-content:center}
+.nav-logo i{font-size:19px;color:#fff}
+.brand-name{font-size:15px;font-weight:800;color:var(--text)}
+.brand-tag{font-size:10px;color:var(--text3);display:block;margin-top:-2px}
+.nav-links{display:flex;gap:2px}
+.nav-link{padding:7px 15px;font-size:13px;color:var(--text2);border-radius:8px;cursor:pointer;transition:all .2s;font-weight:500}
+.nav-link:hover,.nav-link.active{background:var(--blue3);color:var(--blue)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.theme-btn{width:38px;height:38px;border-radius:9px;border:1px solid var(--border);background:var(--card);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text2);transition:all .2s;font-size:17px}
+.theme-btn:hover{background:var(--bg3);color:var(--blue)}
+.btn-nav{padding:8px 20px;background:var(--blue);color:#fff;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:all .2s}
+.btn-nav:hover{background:var(--blue2);transform:translateY(-1px)}
+
+/* HERO */
+.hero{background:var(--hero-bg);min-height:540px;display:flex;align-items:center;position:relative;overflow:hidden;padding:4rem 2.5rem}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;max-width:1140px;margin:0 auto;width:100%}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:6px;background:rgba(37,162,68,.15);color:#4ade80;font-size:12px;font-weight:700;padding:5px 14px;border-radius:100px;margin-bottom:1.25rem;border:1px solid rgba(37,162,68,.25)}
+.hero-h1{font-size:44px;font-weight:900;color:#fff;line-height:1.12;margin-bottom:1rem;letter-spacing:-.025em}
+.hero-h1 span{color:#60a5fa}
+.hero-sub{font-size:15px;color:#94a3b8;line-height:1.75;margin-bottom:2rem;max-width:440px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-hero{padding:13px 26px;border-radius:11px;font-size:14px;font-weight:700;cursor:pointer;border:none;transition:all .2s;display:inline-flex;align-items:center;gap:7px}
+.btn-hero-primary{background:#185FA5;color:#fff}
+.btn-hero-primary:hover{background:#0C447C;transform:translateY(-2px)}
+.btn-hero-ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2)}
+.btn-hero-ghost:hover{background:rgba(255,255,255,.14);transform:translateY(-2px)}
+.hero-stats{display:flex;gap:2rem;margin-top:2rem;flex-wrap:wrap}
+.hero-stat-num{font-size:24px;font-weight:900;color:#60a5fa}
+.hero-stat-lbl{font-size:11px;color:#64748b;margin-top:2px}
+.hero-card-main{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:1.5rem;position:relative}
+.hero-badge{position:absolute;top:-14px;right:-10px;background:#25a244;color:#fff;border-radius:10px;padding:6px 13px;font-size:11px;font-weight:700;border:3px solid #0d1b2e;display:flex;align-items:center;gap:5px}
+.hero-card-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.hero-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.hc-bar{background:rgba(255,255,255,.08);border-radius:100px;height:6px;margin-top:6px}
+.hc-fill{height:100%;border-radius:100px}
+.hero-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.hero-mini{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:11px;padding:.85rem;text-align:center}
+.hm-num{font-size:20px;font-weight:900;color:#60a5fa}
+.hm-lbl{font-size:10px;color:#64748b;margin-top:3px}
+.hero-dot{position:absolute;border-radius:50%;opacity:.07;pointer-events:none}
+
+/* SECTIONS */
+section{padding:5rem 2.5rem}
+.sec-inner{max-width:1140px;margin:0 auto}
+.sec-eyebrow{font-size:12px;font-weight:700;color:var(--blue);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+.sec-title{font-size:32px;font-weight:900;color:var(--text);margin-bottom:.75rem;letter-spacing:-.025em}
+.sec-sub{font-size:15px;color:var(--text2);max-width:540px;line-height:1.75}
+.text-center{text-align:center}
+.text-center .sec-sub{margin:0 auto}
+
+/* SERVICES */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:3rem}
+.svc-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:1.75rem;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+.svc-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--blue3),transparent 55%);opacity:0;transition:opacity .3s}
+.svc-card:hover{border-color:var(--blue);transform:translateY(-5px);box-shadow:0 12px 30px rgba(24,95,165,.12)}
+.svc-card:hover::before{opacity:1}
+.svc-icon{width:52px;height:52px;border-radius:14px;background:var(--blue3);display:flex;align-items:center;justify-content:center;margin-bottom:1.1rem;transition:all .3s;position:relative}
+.svc-card:hover .svc-icon{background:var(--blue);transform:scale(1.1)}
+.svc-icon i{font-size:24px;color:var(--blue);transition:color .3s}
+.svc-card:hover .svc-icon i{color:#fff}
+.svc-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:.5rem;position:relative}
+.svc-desc{font-size:13px;color:var(--text2);line-height:1.65;position:relative}
+.svc-arrow{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--blue);margin-top:.9rem;font-weight:700;position:relative;opacity:0;transform:translateX(-6px);transition:all .3s}
+.svc-card:hover .svc-arrow{opacity:1;transform:translateX(0)}
+
+/* STATS */
+.stats-section{background:linear-gradient(135deg,#0d1b2e 0%,#185FA5 100%);padding:5rem 2.5rem}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;max-width:1000px;margin:0 auto}
+.stat-box{text-align:center;padding:2rem 1rem}
+.stat-number{font-size:52px;font-weight:900;color:#fff;line-height:1;letter-spacing:-.04em}
+.stat-suffix{font-size:32px;color:#93c5fd}
+.stat-label{font-size:14px;color:#93c5fd;margin-top:.6rem;font-weight:600}
+.stat-icon-big{font-size:28px;color:rgba(255,255,255,.3);margin-bottom:.75rem;display:block}
+
+/* STORIES */
+.stories-section{background:var(--bg3)}
+.stories-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:3rem}
+.story-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:1.75rem;transition:all .3s}
+.story-card:hover{border-color:var(--blue);transform:translateY(-3px);box-shadow:0 8px 24px rgba(24,95,165,.1)}
+.story-quote{font-size:42px;color:var(--blue);line-height:1;margin-bottom:.75rem;font-family:Georgia,serif}
+.story-text{font-size:13px;color:var(--text2);line-height:1.75;margin-bottom:1.25rem;font-style:italic}
+.story-stars{display:flex;gap:2px;margin-bottom:.9rem}
+.story-star{color:#f59e0b;font-size:14px}
+.story-author{display:flex;align-items:center;gap:10px;border-top:1px solid var(--border);padding-top:1rem;margin-top:.25rem}
+.story-avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
+.story-name{font-size:13px;font-weight:700;color:var(--text)}
+.story-role{font-size:11px;color:var(--text3);margin-top:2px}
+
+/* FAQ */
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:3rem;align-items:start}
+.faq-item{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:border-color .2s}
+.faq-item.open{border-color:var(--blue)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.25rem;cursor:pointer;gap:12px;user-select:none}
+.faq-q-text{font-size:14px;font-weight:700;color:var(--text)}
+.faq-chevron{width:26px;height:26px;border-radius:7px;background:var(--bg3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s}
+.faq-item.open .faq-chevron{background:var(--blue)}
+.faq-item.open .faq-chevron i{color:#fff !important;transform:rotate(180deg)}
+.faq-chevron i{font-size:15px;color:var(--text3);transition:all .3s}
+.faq-a{padding:0 1.25rem;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s}
+.faq-item.open .faq-a{max-height:220px;padding-bottom:1.1rem}
+.faq-a p{font-size:13px;color:var(--text2);line-height:1.75;border-top:1px solid var(--border);padding-top:.85rem}
+
+/* APP DEMO */
+.app-section{background:var(--bg)}
+.app-preview{background:var(--card);border:1px solid var(--border);border-radius:22px;overflow:hidden;margin-top:3rem;box-shadow:0 4px 32px rgba(0,0,0,.06)}
+.app-topbar-preview{background:var(--bg3);border-bottom:1px solid var(--border);padding:.85rem 1.75rem;display:flex;align-items:center;justify-content:space-between}
+.app-preview-tabs{display:grid;grid-template-columns:repeat(6,1fr);border-bottom:1px solid var(--border)}
+.apt{padding:.9rem;text-align:center;font-size:12px;font-weight:700;color:var(--text3);cursor:pointer;transition:all .2s;border-bottom:2px solid transparent}
+.apt:hover{color:var(--blue);background:var(--bg3)}
+.apt.active{color:var(--blue);border-bottom-color:var(--blue);background:var(--blue3)}
+.app-frame{padding:1.75rem;min-height:280px}
+.ap-panel{display:none}
+.ap-panel.active{display:block;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.ap-table{width:100%;border-collapse:collapse;font-size:13px}
+.ap-table th{text-align:left;padding:8px 10px;color:var(--text3);font-size:10px;text-transform:uppercase;letter-spacing:.07em;border-bottom:1px solid var(--border);font-weight:700}
+.ap-table td{padding:10px 10px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
+.ap-table tr:last-child td{border:none}
+.ap-table tbody tr:hover td{background:var(--bg3)}
+.pill{display:inline-flex;align-items:center;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:700}
+.pill-g{background:#dcfce7;color:#166534}
+.pill-y{background:#fef9c3;color:#854d0e}
+.pill-r{background:#fee2e2;color:#991b1b}
+.pill-b{background:#dbeafe;color:#1e40af}
+[data-theme="dark"] .pill-g{background:#14532d;color:#86efac}
+[data-theme="dark"] .pill-y{background:#713f12;color:#fde68a}
+[data-theme="dark"] .pill-r{background:#7f1d1d;color:#fca5a5}
+[data-theme="dark"] .pill-b{background:#1e3a5f;color:#93c5fd}
+.mini-btn{padding:4px 12px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:11px;cursor:pointer;font-weight:600;transition:all .15s}
+.mini-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+.fi{width:100%;padding:9px 13px;border:1px solid var(--border);border-radius:9px;font-size:13px;background:var(--card);color:var(--text);font-family:'Inter',sans-serif;outline:none;transition:border .2s}
+.fi:focus{border-color:var(--blue)}
+.sbtn{padding:9px 20px;background:var(--blue);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .2s}
+.sbtn:hover{background:var(--blue2);transform:translateY(-1px)}
+
+/* FOOTER */
+.footer-section{background:#060d18;color:#e2e8f0;padding:4rem 2.5rem 2rem}
+.footer-grid{display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr;gap:2.5rem;max-width:1140px;margin:0 auto;padding-bottom:2.5rem;border-bottom:1px solid rgba(255,255,255,.07)}
+.footer-logo-box{width:40px;height:40px;background:#185FA5;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:.75rem}
+.footer-desc{font-size:13px;color:#64748b;line-height:1.75;margin-bottom:1.5rem;max-width:270px}
+.social-row{display:flex;gap:8px;flex-wrap:wrap}
+.social-btn{width:36px;height:36px;border-radius:9px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;color:#64748b;font-size:17px}
+.social-btn:hover{background:#185FA5;border-color:#185FA5;color:#fff;transform:translateY(-3px)}
+.footer-col-title{font-size:12px;font-weight:800;color:#e2e8f0;margin-bottom:1.25rem;letter-spacing:.06em;text-transform:uppercase}
+.footer-links{list-style:none}
+.footer-links li{margin-bottom:.6rem}
+.footer-links a{font-size:13px;color:#475569;transition:color .2s;cursor:pointer}
+.footer-links a:hover{color:#60a5fa}
+.footer-bottom{max-width:1140px;margin:0 auto;padding-top:1.75rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
+.footer-copy{font-size:12px;color:#374151}
+.footer-tags{display:flex;gap:8px}
+.f-tag{padding:3px 11px;border-radius:100px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);font-size:11px;color:#374151;font-weight:600}
+
+/* WHATSAPP */
+.wa-float{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.wa-tooltip{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:9px 15px;font-size:12px;color:var(--text);font-weight:600;white-space:nowrap;opacity:0;transform:translateY(6px);transition:all .25s;pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+.wa-float:hover .wa-tooltip{opacity:1;transform:translateY(0)}
+.wa-btn{width:56px;height:56px;border-radius:50%;background:#25d366;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.4);transition:all .25s;position:relative}
+.wa-btn::after{content:'';position:absolute;inset:0;border-radius:50%;background:#25d366;animation:wa-pulse 2s ease-out infinite;z-index:-1}
+@keyframes wa-pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.6);opacity:0}}
+.wa-btn:hover{background:#128c7e;transform:scale(1.08)}
+.wa-btn i{font-size:28px;color:#fff}
+
+/* ALERT */
+.alert-toast{position:fixed;top:76px;right:24px;z-index:999;background:#dcfce7;color:#166534;border:1px solid #bbf7d0;border-radius:12px;padding:12px 18px;font-size:13px;font-weight:700;max-width:320px;display:none;animation:fadeIn .3s ease;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+[data-theme="dark"] .alert-toast{background:#14532d;color:#86efac;border-color:#166534}
+
+/* ANIMATIONS */
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.anim-in{animation:slideUp .6s ease both}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="topnav">
+  <div class="nav-brand">
+    <div class="nav-logo"><i class="ti ti-building-community"></i></div>
+    <div>
+      <span class="brand-name">EMS Pro</span>
+      <span class="brand-tag">Enterprise Suite</span>
+    </div>
+  </div>
+  <div class="nav-links">
+    <span class="nav-link active" onclick="goTo('hero-sec')">Home</span>
+    <span class="nav-link" onclick="goTo('services-sec')">Features</span>
+    <span class="nav-link" onclick="goTo('stats-sec')">Stats</span>
+    <span class="nav-link" onclick="goTo('stories-sec')">Reviews</span>
+    <span class="nav-link" onclick="goTo('faq-sec')">FAQ</span>
+    <span class="nav-link" onclick="goTo('app-sec')">Demo</span>
+  </div>
+  <div class="nav-right">
+    <button class="theme-btn" onclick="toggleTheme()" title="Toggle dark/light mode">
+      <i class="ti ti-sun" id="theme-icon"></i>
+    </button>
+    <button class="btn-nav" onclick="goTo('app-sec')">🚀 Launch App</button>
+  </div>
+</nav>
+
+<!-- ALERT TOAST -->
+<div class="alert-toast" id="alert-toast"></div>
+
+<!-- HERO -->
+<section id="hero-sec" class="hero">
+  <div class="hero-dot" style="width:400px;height:400px;left:-5%;top:-20%;background:#185FA5"></div>
+  <div class="hero-dot" style="width:250px;height:250px;right:5%;bottom:-10%;background:#0d4a8a"></div>
+  <div class="hero-dot" style="width:160px;height:160px;left:42%;top:60%;background:#1a3a5c"></div>
+  <div class="hero-grid">
+    <div>
+      <div class="hero-eyebrow anim-in" style="animation-delay:.1s">
+        <i class="ti ti-sparkles" style="font-size:13px"></i> Trusted by 500+ companies
+      </div>
+      <h1 class="hero-h1 anim-in" style="animation-delay:.2s">Manage your <span>workforce</span><br>smarter than ever</h1>
+      <p class="hero-sub anim-in" style="animation-delay:.3s">A complete HR platform covering employees, attendance, payroll, leaves, and departments — all in one beautifully crafted system built for modern Indian businesses.</p>
+      <div class="hero-btns anim-in" style="animation-delay:.4s">
+        <button class="btn-hero btn-hero-primary" onclick="goTo('app-sec')">
+          <i class="ti ti-rocket" style="font-size:16px"></i> Get started free
+        </button>
+        <button class="btn-hero btn-hero-ghost" onclick="goTo('services-sec')">
+          <i class="ti ti-player-play" style="font-size:15px"></i> See features
+        </button>
+      </div>
+      <div class="hero-stats anim-in" style="animation-delay:.5s">
+        <div class="hero-stat">
+          <div class="hero-stat-num">500+</div>
+          <div class="hero-stat-lbl">Companies</div>
+        </div>
+        <div class="hero-stat" style="border-left:1px solid rgba(255,255,255,.1);padding-left:2rem">
+          <div class="hero-stat-num">50K+</div>
+          <div class="hero-stat-lbl">Employees managed</div>
+        </div>
+        <div class="hero-stat" style="border-left:1px solid rgba(255,255,255,.1);padding-left:2rem">
+          <div class="hero-stat-num">99.9%</div>
+          <div class="hero-stat-lbl">Uptime SLA</div>
+        </div>
+      </div>
+    </div>
+    <div class="anim-in" style="animation-delay:.35s">
+      <div class="hero-card-main">
+        <div class="hero-badge"><i class="ti ti-circle-filled" style="font-size:8px;color:#4ade80"></i> Live dashboard</div>
+        <div style="font-size:11px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:1.1rem">Today's overview</div>
+        <div class="hero-card-row">
+          <!-- Priya Singh SVG avatar - woman with long hair, blue theme -->
+          <svg width="38" height="38" viewBox="0 0 38 38" style="flex-shrink:0;border-radius:50%;overflow:hidden" aria-label="Priya Singh avatar">
+            <circle cx="19" cy="19" r="19" fill="#1e3a5f"/>
+            <!-- hair back -->
+            <ellipse cx="19" cy="13" rx="9" ry="9.5" fill="#1a0a2e"/>
+            <!-- neck -->
+            <rect x="16" y="22" width="6" height="5" rx="1" fill="#c8956c"/>
+            <!-- face -->
+            <ellipse cx="19" cy="19" rx="7.5" ry="8" fill="#d4a574"/>
+            <!-- hair front top -->
+            <ellipse cx="19" cy="11.5" rx="7.5" ry="4" fill="#1a0a2e"/>
+            <!-- hair side left -->
+            <ellipse cx="12" cy="16" rx="2.5" ry="5" fill="#1a0a2e"/>
+            <!-- hair side right -->
+            <ellipse cx="26" cy="16" rx="2.5" ry="5" fill="#1a0a2e"/>
+            <!-- eyes -->
+            <ellipse cx="16" cy="18.5" rx="1.3" ry="1.4" fill="#2c1810"/>
+            <ellipse cx="22" cy="18.5" rx="1.3" ry="1.4" fill="#2c1810"/>
+            <!-- eye shine -->
+            <circle cx="16.5" cy="18" r="0.4" fill="#fff"/>
+            <circle cx="22.5" cy="18" r="0.4" fill="#fff"/>
+            <!-- eyebrows -->
+            <path d="M14.5 16.8 Q16 16 17.5 16.8" stroke="#4a2c1a" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+            <path d="M20.5 16.8 Q22 16 23.5 16.8" stroke="#4a2c1a" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+            <!-- nose -->
+            <ellipse cx="19" cy="21" rx="1" ry="0.6" fill="#b8845a"/>
+            <!-- smile -->
+            <path d="M16.5 23.5 Q19 25 21.5 23.5" stroke="#8b5e3c" stroke-width="0.9" fill="none" stroke-linecap="round"/>
+            <!-- bindi -->
+            <circle cx="19" cy="14.5" r="0.7" fill="#e84040"/>
+            <!-- collar / top -->
+            <path d="M12 38 Q13 28 19 27 Q25 28 26 38Z" fill="#185FA5"/>
+          </svg>
+          <div style="flex:1">
+            <div style="font-size:10px;color:#64748b;margin-bottom:2px">Priya Singh — Engineering</div>
+            <div style="font-size:13px;font-weight:600;color:#e2e8f0">Frontend Developer · Present</div>
+            <div class="hc-bar"><div class="hc-fill" style="width:92%;background:#185FA5"></div></div>
+          </div>
+          <span style="font-size:11px;color:#4ade80;font-weight:800">92%</span>
+        </div>
+        <div class="hero-card-row">
+          <!-- Amit Verma SVG avatar - man, green theme -->
+          <svg width="38" height="38" viewBox="0 0 38 38" style="flex-shrink:0;border-radius:50%;overflow:hidden" aria-label="Amit Verma avatar">
+            <circle cx="19" cy="19" r="19" fill="#1a2e1a"/>
+            <!-- short hair -->
+            <ellipse cx="19" cy="12" rx="8.5" ry="6" fill="#1a0a05"/>
+            <!-- neck -->
+            <rect x="16.5" y="22" width="5" height="5" rx="1" fill="#b87d4b"/>
+            <!-- face -->
+            <ellipse cx="19" cy="19" rx="7" ry="7.5" fill="#c8924e"/>
+            <!-- hair overlay -->
+            <ellipse cx="19" cy="11" rx="7" ry="3.5" fill="#1a0a05"/>
+            <!-- sideburns -->
+            <rect x="11.5" y="14" width="2" height="5" rx="1" fill="#1a0a05"/>
+            <rect x="24.5" y="14" width="2" height="5" rx="1" fill="#1a0a05"/>
+            <!-- eyes -->
+            <ellipse cx="16.5" cy="18.5" rx="1.2" ry="1.3" fill="#1a0a05"/>
+            <ellipse cx="21.5" cy="18.5" rx="1.2" ry="1.3" fill="#1a0a05"/>
+            <circle cx="17" cy="18" r="0.38" fill="#fff"/>
+            <circle cx="22" cy="18" r="0.38" fill="#fff"/>
+            <!-- eyebrows - thicker for man -->
+            <rect x="14.8" y="16.5" width="3.2" height="0.9" rx="0.4" fill="#3a1a05"/>
+            <rect x="20" y="16.5" width="3.2" height="0.9" rx="0.4" fill="#3a1a05"/>
+            <!-- nose -->
+            <path d="M18 20.5 Q19 22 20 20.5" stroke="#a06030" stroke-width="0.7" fill="none"/>
+            <!-- mustache -->
+            <path d="M16.5 23 Q19 24.5 21.5 23" stroke="#1a0a05" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+            <!-- collar / shirt -->
+            <path d="M11 38 Q12 28 19 26.5 Q26 28 27 38Z" fill="#22c55e"/>
+            <!-- tie -->
+            <path d="M18 27 L19 31 L20 27Z" fill="#fff"/>
+          </svg>
+          <div style="flex:1">
+            <div style="font-size:10px;color:#64748b;margin-bottom:2px">Amit Verma — Marketing</div>
+            <div style="font-size:13px;font-weight:600;color:#e2e8f0">Marketing Lead · Present</div>
+            <div class="hc-bar"><div class="hc-fill" style="width:85%;background:#22c55e"></div></div>
+          </div>
+          <span style="font-size:11px;color:#4ade80;font-weight:800">85%</span>
+        </div>
+        <div class="hero-card-row" style="margin-bottom:0">
+          <!-- Sunita Rao SVG avatar - woman with bun, purple theme -->
+          <svg width="38" height="38" viewBox="0 0 38 38" style="flex-shrink:0;border-radius:50%;overflow:hidden" aria-label="Sunita Rao avatar">
+            <circle cx="19" cy="19" r="19" fill="#2e1a2e"/>
+            <!-- hair bun -->
+            <circle cx="19" cy="9" r="4.5" fill="#1a0a2e"/>
+            <!-- bun detail -->
+            <circle cx="19" cy="9" r="2.5" fill="#2a1040"/>
+            <!-- neck -->
+            <rect x="16.5" y="22" width="5" height="5" rx="1" fill="#c8a882"/>
+            <!-- face - lighter skin -->
+            <ellipse cx="19" cy="19" rx="7" ry="7.8" fill="#ddb896"/>
+            <!-- hair sides -->
+            <ellipse cx="12.5" cy="17" rx="2" ry="5.5" fill="#1a0a2e"/>
+            <ellipse cx="25.5" cy="17" rx="2" ry="5.5" fill="#1a0a2e"/>
+            <!-- hair top connect to bun -->
+            <rect x="12" y="12" width="14" height="5" rx="1" fill="#1a0a2e"/>
+            <!-- eyes - larger, almond shaped -->
+            <ellipse cx="16" cy="18.5" rx="1.5" ry="1.3" fill="#2c1010"/>
+            <ellipse cx="22" cy="18.5" rx="1.5" ry="1.3" fill="#2c1010"/>
+            <circle cx="16.5" cy="18" r="0.45" fill="#fff"/>
+            <circle cx="22.5" cy="18" r="0.45" fill="#fff"/>
+            <!-- eyeliner flick -->
+            <path d="M14.2 18 Q15 17.2 17.5 18" stroke="#1a0a10" stroke-width="0.6" fill="none"/>
+            <path d="M20.2 18 Q21 17.2 23.5 18" stroke="#1a0a10" stroke-width="0.6" fill="none"/>
+            <!-- eyebrows -->
+            <path d="M14.5 16.5 Q16 15.8 17.5 16.5" stroke="#3a1a1a" stroke-width="0.75" fill="none" stroke-linecap="round"/>
+            <path d="M20.5 16.5 Q22 15.8 23.5 16.5" stroke="#3a1a1a" stroke-width="0.75" fill="none" stroke-linecap="round"/>
+            <!-- nose -->
+            <ellipse cx="19" cy="21" rx="1" ry="0.5" fill="#c09070"/>
+            <!-- lips - pink -->
+            <path d="M16.5 23.5 Q19 25.2 21.5 23.5" stroke="#c06080" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+            <!-- bindi -->
+            <circle cx="19" cy="14.5" r="0.8" fill="#c084fc"/>
+            <!-- saree/dupatta drape hint -->
+            <path d="M11 38 Q13 27 19 26 Q25 27 27 38Z" fill="#8b5cf6"/>
+            <path d="M14 38 Q15 31 17 29" stroke="#c084fc" stroke-width="0.8" fill="none"/>
+          </svg>
+          <div style="flex:1">
+            <div style="font-size:10px;color:#64748b;margin-bottom:2px">Sunita Rao — HR</div>
+            <div style="font-size:13px;font-weight:600;color:#e2e8f0">HR Manager · WFH</div>
+            <div class="hc-bar"><div class="hc-fill" style="width:78%;background:#a855f7"></div></div>
+          </div>
+          <span style="font-size:11px;color:#c084fc;font-weight:800">78%</span>
+        </div>
+        <div class="hero-mini-grid">
+          <div class="hero-mini"><div class="hm-num">21</div><div class="hm-lbl">Present today</div></div>
+          <div class="hero-mini"><div class="hm-num">₹8.4L</div><div class="hm-lbl">Monthly payroll</div></div>
+          <div class="hero-mini"><div class="hm-num">4</div><div class="hm-lbl">Pending leaves</div></div>
+          <div class="hero-mini"><div class="hm-num">6</div><div class="hm-lbl">Departments</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services-sec">
+  <div class="sec-inner">
+    <div class="text-center">
+      <div class="sec-eyebrow">Core modules</div>
+      <h2 class="sec-title">Everything HR needs, built in</h2>
+      <p class="sec-sub">Six fully integrated modules that cover every aspect of workforce management from onboarding to payroll.</p>
+    </div>
+    <div class="services-grid">
+      <div class="svc-card" onclick="goTo('app-sec');setTimeout(()=>setTab(0),600)">
+        <div class="svc-icon"><i class="ti ti-users"></i></div>
+        <div class="svc-title">Employee management</div>
+        <div class="svc-desc">Full CRUD operations — add, edit, search, and manage every employee with complete profile history and status tracking.</div>
+        <div class="svc-arrow"><i class="ti ti-arrow-right"></i> Explore module</div>
+      </div>
+      <div class="svc-card" onclick="goTo('app-sec');setTimeout(()=>setTab(1),600)">
+        <div class="svc-icon"><i class="ti ti-building"></i></div>
+        <div class="svc-title">Department control</div>
+        <div class="svc-desc">Create departments, assign heads, map employees to teams, and view department-wise headcount at a glance.</div>
+        <div class="svc-arrow"><i class="ti ti-arrow-right"></i> Explore module</div>
+      </div>
+      <div class="svc-card" onclick="goTo('app-sec');setTimeout(()=>setTab(2),600)">
+        <div class="svc-icon"><i class="ti ti-calendar-check"></i></div>
+        <div class="svc-title">Attendance tracking</div>
+        <div class="svc-desc">Mark daily attendance with check-in and check-out times. Generate monthly reports with presence percentage per employee.</div>
+        <div class="svc-arrow"><i class="ti ti-arrow-right"></i> Explore module</div>
+      </div>
+      <div class="svc-card" onclick="goTo('app-sec');setTimeout(()=>setTab(3),600)">
+        <div class="svc-icon"><i class="ti ti-cash"></i></div>
+        <div class="svc-title">Payroll & salary</div>
+        <div class="svc-desc">Calculate net pay with allowances and deductions, track payment status, and generate detailed salary reports.</div>
+        <div class="svc-arrow"><i class="ti ti-arrow-right"></i> Explore module</div>
+      </div>
+      <div class="svc-card" onclick="goTo('app-sec');setTimeout(()=>setTab(4),600)">
+        <div class="svc-icon"><i class="ti ti-beach"></i></div>
+        <div class="svc-title">Leave management</div>
+        <div class="svc-desc">Apply for casual, sick, earned, or maternity leave. Admins approve or reject requests with one click, full audit history.</div>
+        <div class="svc-arrow"><i class="ti ti-arrow-right"></i> Explore module</div>
+      </div>
+      <div class="svc-card" onclick="goTo('app-sec');setTimeout(()=>setTab(5),600)">
+        <div class="svc-icon"><i class="ti ti-shield-lock"></i></div>
+        <div class="svc-title">Role-based access</div>
+        <div class="svc-desc">Admin and Employee roles with granular permissions. Secure login, password management, and session tracking.</div>
+        <div class="svc-arrow"><i class="ti ti-arrow-right"></i> Explore module</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div id="stats-sec" class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-box">
+      <i class="ti ti-building-community stat-icon-big"></i>
+      <div class="stat-number"><span id="cnt1">0</span><span class="stat-suffix">+</span></div>
+      <div class="stat-label">Companies using EMS Pro</div>
+    </div>
+    <div class="stat-box">
+      <i class="ti ti-users stat-icon-big"></i>
+      <div class="stat-number"><span id="cnt2">0</span><span class="stat-suffix">K</span></div>
+      <div class="stat-label">Employees managed daily</div>
+    </div>
+    <div class="stat-box">
+      <i class="ti ti-clock stat-icon-big"></i>
+      <div class="stat-number"><span id="cnt3">0</span><span class="stat-suffix">%</span></div>
+      <div class="stat-label">Uptime guaranteed</div>
+    </div>
+    <div class="stat-box">
+      <i class="ti ti-star stat-icon-big"></i>
+      <div class="stat-number"><span id="cnt4">0</span><span class="stat-suffix">/5</span></div>
+      <div class="stat-label">Average customer rating</div>
+    </div>
+  </div>
+</div>
+
+<!-- STORIES -->
+<section id="stories-sec" class="stories-section">
+  <div class="sec-inner">
+    <div class="text-center">
+      <div class="sec-eyebrow">Customer stories</div>
+      <h2 class="sec-title">Trusted by HR teams everywhere</h2>
+      <p class="sec-sub">Real feedback from companies that transformed how they manage people with EMS Pro.</p>
+    </div>
+    <div class="stories-grid">
+      <div class="story-card">
+        <div class="story-quote">"</div>
+        <p class="story-text">EMS Pro completely replaced three separate tools we were using. The attendance module alone saved our HR team 6 hours a week on manual reporting.</p>
+        <div class="story-stars">
+          <i class="ti ti-star-filled story-star"></i><i class="ti ti-star-filled story-star"></i><i class="ti ti-star-filled story-star"></i><i class="ti ti-star-filled story-star"></i><i class="ti ti-star-filled story-star"></i>
+        </div>
+        <div class="story-author">
+          <!-- Ramesh Khanna - man with glasses, formal -->
+          <svg width="42" height="42" viewBox="0 0 42 42" style="border-radius:50%;overflow:hidden;flex-shrink:0" aria-label="Ramesh Khanna avatar">
+            <circle cx="21" cy="21" r="21" fill="#dbeafe"/>
+            <ellipse cx="21" cy="14" rx="9" ry="7" fill="#1a0a05"/>
+            <rect x="18" y="24" width="6" height="5" rx="1" fill="#b87d4b"/>
+            <ellipse cx="21" cy="20" rx="8" ry="8.5" fill="#c8924e"/>
+            <ellipse cx="21" cy="12.5" rx="7.5" ry="3.5" fill="#1a0a05"/>
+            <rect x="13" y="15" width="2" height="6" rx="1" fill="#1a0a05"/>
+            <rect x="27" y="15" width="2" height="6" rx="1" fill="#1a0a05"/>
+            <!-- glasses -->
+            <rect x="14" y="18.5" width="5.5" height="3.5" rx="1.5" fill="none" stroke="#444" stroke-width="1"/>
+            <rect x="22.5" y="18.5" width="5.5" height="3.5" rx="1.5" fill="none" stroke="#444" stroke-width="1"/>
+            <line x1="19.5" y1="20.2" x2="22.5" y2="20.2" stroke="#444" stroke-width="1"/>
+            <line x1="13" y1="20.2" x2="14" y2="20.2" stroke="#444" stroke-width="0.8"/>
+            <line x1="28" y1="20.2" x2="29" y2="20.2" stroke="#444" stroke-width="0.8"/>
+            <!-- eyes behind glasses -->
+            <ellipse cx="16.7" cy="20.3" rx="1" ry="1" fill="#1a0a05"/>
+            <ellipse cx="25.3" cy="20.3" rx="1" ry="1" fill="#1a0a05"/>
+            <!-- mustache -->
+            <path d="M18 25 Q21 26.5 24 25" stroke="#1a0a05" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <path d="M11 42 Q13 31 21 29 Q29 31 31 42Z" fill="#1e40af"/>
+            <path d="M19 30 L21 34 L23 30Z" fill="#fff"/>
+            <rect x="20" y="29" width="2" height="5" fill="#fff"/>
+          </svg>
+          <div>
+            <div class="story-name">Ramesh Khanna</div>
+            <div class="story-role">HR Director, TechNova Pvt. Ltd</div>
+          </div>
+        </div>
+      </div>
+      <div class="story-card">
+        <div class="story-quote">"</div>
+        <p class="story-text">The leave management workflow is seamless. Employees apply on mobile, managers approve instantly — no more emails or WhatsApp messages lost in threads.</p>
+        <div class="story-stars">
+          <i class="ti ti-star-filled story-star"></i><i class="ti ti-star-filled story-star"></i><i class="ti ti-star-filled story-star"></i><i class="ti ti-star-filled story-star"></i><i class="ti ti-star-filled story-star"></i>
+        </div>
+        <div class="story-author">
+          <!-- Neha Pillai - woman, lighter skin, curly hair hint -->
+          <svg width="42" height="42" viewBox="0 0 42 42" style="border-radius:50%;overflow:hidden;flex-shrink:0" aria-label="Neha Pillai avatar">
+            <circle cx="21" cy="21" r="21" fill="#dcfce7"/>
+            <!-- hair - wavy/curly -->
+            <ellipse cx="21" cy="13" rx="10" ry="8" fill="#3d1a00"/>
+            <circle cx="13" cy="16" r="3.5" fill="#3d1a00"/>
+            <circle cx="29" cy="16" r="3.5" fill="#3d1a00"/>
+            <circle cx="11" cy="20" r="3" fill="#3d1a00"/>
+            <circle cx="31" cy="20" r="3" fill="#3d1a00"/>
+            <!-- neck -->
+            <rect x="18" y="24" width="6" height="5" rx="1" fill="#e8c99a"/>
+            <!-- face -->
+            <ellipse cx="21" cy="20" rx="8" ry="8.5" fill="#f0d5a8"/>
+            <!-- hair front -->
+            <ellipse cx="21" cy="12" rx="8" ry="4" fill="#3d1a00"/>
+            <!-- eyes -->
+            <ellipse cx="18" cy="19.5" rx="1.4" ry="1.3" fill="#1a0805"/>
+            <ellipse cx="24" cy="19.5" rx="1.4" ry="1.3" fill="#1a0805"/>
+            <circle cx="18.5" cy="19" r="0.42" fill="#fff"/>
+            <circle cx="24.5" cy="19" r="0.42" fill="#fff"/>
+            <!-- eyebrows -->
+            <path d="M16.2 17.8 Q18 17 19.8 17.8" stroke="#3d1a00" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+            <path d="M22.2 17.8 Q24 17 25.8 17.8" stroke="#3d1a00" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+            <!-- nose -->
+            <ellipse cx="21" cy="22.5" rx="1.1" ry="0.6" fill="#d4a870"/>
+            <!-- smile wide -->
+            <path d="M18 25 Q21 27 24 25" stroke="#b06030" stroke-width="1" fill="none" stroke-linecap="round"/>
+            <!-- bindi small -->
+            <circle cx="21" cy="15.5" r="0.7" fill="#16a34a"/>
+            <!-- earring left -->
+            <circle cx="13" cy="21" r="1.2" fill="#fbbf24"/>
+            <circle cx="29" cy="21" r="1.2" fill="#fbbf24"/>
+            <!-- top - green -->
+            <path d="M11 42 Q13 31 21 29 Q29 31 31 42Z" fill="#16a34a"/>
+          </svg>
+          <div>
+            <div class="story-name">Neha Pillai</div>
+            <div class="story-role">People Ops Lead, FinServ India</div>
+          </div>
+        </div>
+      </div>
+      <div class="story-card">
+        <div class="story-quote">"</div>
+        <p class="story-text">Payroll used to take two full days every month. With EMS Pro it takes 20 minutes. The salary report exports are clean enough to share directly with our CA.</p>
+        <div class="story-stars">
+          <i class="ti ti-star-filled story-star"></i><i class="ti ti-star-filled story-star"></i><i class="ti ti-star-filled story-star"></i><i class="ti ti-star-filled story-star"></i><i class="ti ti-star-filled story-star"></i>
+        </div>
+        <div class="story-author">
+          <!-- Vivek Sharma - man, short hair, formal suit -->
+          <svg width="42" height="42" viewBox="0 0 42 42" style="border-radius:50%;overflow:hidden;flex-shrink:0" aria-label="Vivek Sharma avatar">
+            <circle cx="21" cy="21" r="21" fill="#fef9c3"/>
+            <!-- short cropped hair -->
+            <ellipse cx="21" cy="12" rx="9" ry="6.5" fill="#0f0704"/>
+            <!-- neck -->
+            <rect x="18" y="24" width="6" height="5" rx="1" fill="#a06838"/>
+            <!-- face - medium brown -->
+            <ellipse cx="21" cy="20" rx="7.5" ry="8" fill="#b87840"/>
+            <!-- hair top -->
+            <ellipse cx="21" cy="11.5" rx="7.5" ry="3.5" fill="#0f0704"/>
+            <!-- sideburns -->
+            <rect x="13" y="14.5" width="2" height="7" rx="1" fill="#0f0704"/>
+            <rect x="27" y="14.5" width="2" height="7" rx="1" fill="#0f0704"/>
+            <!-- eyes -->
+            <ellipse cx="18" cy="19.5" rx="1.3" ry="1.2" fill="#0f0704"/>
+            <ellipse cx="24" cy="19.5" rx="1.3" ry="1.2" fill="#0f0704"/>
+            <circle cx="18.5" cy="19" r="0.38" fill="#fff"/>
+            <circle cx="24.5" cy="19" r="0.38" fill="#fff"/>
+            <!-- eyebrows -->
+            <rect x="16.3" y="17.5" width="3.4" height="1" rx="0.4" fill="#0f0704"/>
+            <rect x="22.3" y="17.5" width="3.4" height="1" rx="0.4" fill="#0f0704"/>
+            <!-- nose -->
+            <path d="M20 21.5 Q21 23 22 21.5" stroke="#8a5520" stroke-width="0.8" fill="none"/>
+            <!-- neutral mouth / slight smile -->
+            <path d="M18.5 25 Q21 26 23.5 25" stroke="#7a4518" stroke-width="0.9" fill="none" stroke-linecap="round"/>
+            <!-- formal suit - dark -->
+            <path d="M10 42 Q13 30 21 28 Q29 30 32 42Z" fill="#1e293b"/>
+            <!-- white shirt collar -->
+            <path d="M18.5 28.5 L21 32 L23.5 28.5 L21 30Z" fill="#f1f5f9"/>
+            <!-- tie - amber -->
+            <path d="M20.2 29 L21 34 L21.8 29 Q21 30.5 20.2 29Z" fill="#854d0b"/>
+          </svg>
+          <div>
+            <div class="story-name">Vivek Sharma</div>
+            <div class="story-role">CFO, Greenleaf Logistics</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq-sec">
+  <div class="sec-inner">
+    <div class="text-center">
+      <div class="sec-eyebrow">FAQ</div>
+      <h2 class="sec-title">Questions people actually ask</h2>
+      <p class="sec-sub">Straight answers to the things most teams want to know before getting started.</p>
+    </div>
+    <div class="faq-grid">
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span class="faq-q-text">How does role-based access work?</span><div class="faq-chevron"><i class="ti ti-chevron-down"></i></div></div>
+        <div class="faq-a"><p>Admins can view, create, edit, and delete all records across all modules. Employees can view their own profile, apply for leaves, and check their attendance and salary slip. Role permissions are managed from the Users panel.</p></div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span class="faq-q-text">Can I export salary and attendance reports?</span><div class="faq-chevron"><i class="ti ti-chevron-down"></i></div></div>
+        <div class="faq-a"><p>Yes. All reports can be exported to PDF or Excel. The salary report includes gross pay, deductions, and net pay per employee. Attendance reports can be filtered by month, department, or individual employee.</p></div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span class="faq-q-text">Is employee data stored securely?</span><div class="faq-chevron"><i class="ti ti-chevron-down"></i></div></div>
+        <div class="faq-a"><p>All data is encrypted at rest and in transit. Passwords are hashed using bcrypt. The system supports session expiry and audit logs so you can track who changed what and when.</p></div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span class="faq-q-text">How many employees can the system handle?</span><div class="faq-chevron"><i class="ti ti-chevron-down"></i></div></div>
+        <div class="faq-a"><p>The system is built on a relational database and scales to tens of thousands of employee records. Performance is optimised with indexed queries so search and reporting remain fast at any size.</p></div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span class="faq-q-text">What leave types are supported?</span><div class="faq-chevron"><i class="ti ti-chevron-down"></i></div></div>
+        <div class="faq-a"><p>Out of the box: Casual, Sick, Earned, Maternity, and Paternity leave. Custom leave types can be added from the admin panel. Leave balances and carry-forward rules are configurable per type.</p></div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q"><span class="faq-q-text">Can employees mark their own attendance?</span><div class="faq-chevron"><i class="ti ti-chevron-down"></i></div></div>
+        <div class="faq-a"><p>Yes. With employee-role access enabled, staff can self-check-in and check-out via the portal. Admins can review and override any entry. WFH, half-day, and on-site statuses are all supported.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APP DEMO -->
+<section id="app-sec" class="app-section">
+  <div class="sec-inner">
+    <div class="text-center">
+      <div class="sec-eyebrow">Live demo</div>
+      <h2 class="sec-title">Try every module right now</h2>
+      <p class="sec-sub">No login required. Explore all six modules with real sample data below.</p>
+    </div>
+    <div class="app-preview">
+      <div class="app-topbar-preview">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:28px;height:28px;background:var(--blue);border-radius:7px;display:flex;align-items:center;justify-content:center">
+            <i class="ti ti-building-community" style="font-size:15px;color:#fff"></i>
+          </div>
+          <span style="font-size:14px;font-weight:800;color:var(--text)">EMS Pro</span>
+          <span style="font-size:12px;color:var(--text3)">· Admin panel</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="pill pill-g"><i class="ti ti-circle-filled" style="font-size:8px;margin-right:3px"></i>Live</span>
+          <span style="font-size:12px;color:var(--text3)">admin@company.com</span>
+        </div>
+      </div>
+      <div class="app-preview-tabs">
+        <div class="apt active" onclick="setTab(0)"><i class="ti ti-users" style="font-size:16px;display:block;margin:0 auto 4px"></i>Employees</div>
+        <div class="apt" onclick="setTab(1)"><i class="ti ti-building" style="font-size:16px;display:block;margin:0 auto 4px"></i>Departments</div>
+        <div class="apt" onclick="setTab(2)"><i class="ti ti-calendar-check" style="font-size:16px;display:block;margin:0 auto 4px"></i>Attendance</div>
+        <div class="apt" onclick="setTab(3)"><i class="ti ti-cash" style="font-size:16px;display:block;margin:0 auto 4px"></i>Salary</div>
+        <div class="apt" onclick="setTab(4)"><i class="ti ti-beach" style="font-size:16px;display:block;margin:0 auto 4px"></i>Leaves</div>
+        <div class="apt" onclick="setTab(5)"><i class="ti ti-shield-lock" style="font-size:16px;display:block;margin:0 auto 4px"></i>Security</div>
+      </div>
+      <div class="app-frame">
+
+        <!-- Employees -->
+        <div class="ap-panel active" id="ap0">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.1rem;gap:12px">
+            <input class="fi" placeholder="🔍 Search employees by name, dept, ID…" style="max-width:280px" oninput="searchEmp(this.value)">
+            <button class="sbtn" onclick="addEmpDemo()"><i class="ti ti-plus"></i> Add employee</button>
+          </div>
+          <div id="emp-msg" style="display:none;background:#dcfce7;color:#166534;border:1px solid #bbf7d0;padding:10px 14px;border-radius:10px;font-size:12px;font-weight:700;margin-bottom:10px"></div>
+          <table class="ap-table">
+            <thead><tr><th>ID</th><th>Name</th><th>Department</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="emp-body"></tbody>
+          </table>
+        </div>
+
+        <!-- Departments -->
+        <div class="ap-panel" id="ap1">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem" id="dept-grid"></div>
+        </div>
+
+        <!-- Attendance -->
+        <div class="ap-panel" id="ap2">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+            <span style="font-size:14px;font-weight:700;color:var(--text)">📅 Today — June 12, 2025</span>
+            <span class="pill pill-g">21 / 24 present</span>
+          </div>
+          <table class="ap-table">
+            <thead><tr><th>Employee</th><th>Department</th><th>Check-in</th><th>Check-out</th><th>Status</th></tr></thead>
+            <tbody id="att-body"></tbody>
+          </table>
+        </div>
+
+        <!-- Salary -->
+        <div class="ap-panel" id="ap3">
+          <div style="display:flex;justify-content:space-between;margin-bottom:1.25rem;align-items:center">
+            <div>
+              <div style="font-size:12px;color:var(--text3);font-weight:700">Total payroll — June 2025</div>
+              <div style="font-size:26px;font-weight:900;color:var(--blue)">₹2,79,500</div>
+            </div>
+            <button class="sbtn"><i class="ti ti-download"></i> Export report</button>
+          </div>
+          <table class="ap-table">
+            <thead><tr><th>Employee</th><th>Basic</th><th>Allowances</th><th>Deductions</th><th>Net pay</th><th>Status</th></tr></thead>
+            <tbody id="sal-body"></tbody>
+          </table>
+        </div>
+
+        <!-- Leaves -->
+        <div class="ap-panel" id="ap4">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+            <span style="font-size:14px;font-weight:700;color:var(--text)">Leave requests</span>
+            <span class="pill pill-y">4 pending review</span>
+          </div>
+          <table class="ap-table">
+            <thead><tr><th>Employee</th><th>Type</th><th>Dates</th><th>Days</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody id="lv-body"></tbody>
+          </table>
+        </div>
+
+        <!-- Security -->
+        <div class="ap-panel" id="ap5">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+            <div>
+              <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:1rem">🔐 Change password</div>
+              <div style="margin-bottom:10px"><input class="fi" type="password" placeholder="Current password"></div>
+              <div style="margin-bottom:6px"><input class="fi" type="password" placeholder="New password" oninput="pwStr(this.value)"></div>
+              <div style="background:var(--bg3);border-radius:100px;height:6px;margin-bottom:5px">
+                <div id="pw-bar" style="height:6px;border-radius:100px;width:0;background:var(--blue);transition:width .3s,background .3s"></div>
+              </div>
+              <div id="pw-hint" style="font-size:11px;color:var(--text3);margin-bottom:10px">Enter a new password</div>
+              <div style="margin-bottom:12px"><input class="fi" type="password" placeholder="Confirm new password"></div>
+              <button class="sbtn" style="width:100%">Update password</button>
+            </div>
+            <div>
+              <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:1rem">👥 System users</div>
+              <table class="ap-table">
+                <thead><tr><th>Name</th><th>Role</th><th>Last login</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td style="font-weight:700">Admin User</td><td><span class="pill pill-b">Admin</span></td><td style="font-size:11px;color:var(--text3)">Today 9:00 AM</td><td><span class="pill pill-g">Active</span></td></tr>
+                  <tr><td style="font-weight:700">Sunita Rao</td><td><span class="pill pill-b">HR Manager</span></td><td style="font-size:11px;color:var(--text3)">Today 8:45 AM</td><td><span class="pill pill-g">Active</span></td></tr>
+                  <tr><td style="font-weight:700">Rohit Gupta</td><td><span class="pill pill-b">Finance</span></td><td style="font-size:11px;color:var(--text3)">Yesterday</td><td><span class="pill pill-g">Active</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer-section">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo-box"><i class="ti ti-building-community" style="font-size:20px;color:#fff"></i></div>
+      <div style="font-size:17px;font-weight:800;color:#e2e8f0;margin-bottom:4px">EMS Pro</div>
+      <div style="font-size:11px;color:#475569;margin-bottom:1rem;font-weight:700">Enterprise HR Suite</div>
+      <p class="footer-desc">A modern, full-stack Employee Management System designed for Indian businesses. Manage people, not paperwork.</p>
+      <div class="social-row">
+        <div class="social-btn" title="GitHub"><i class="ti ti-brand-github"></i></div>
+        <div class="social-btn" title="LinkedIn"><i class="ti ti-brand-linkedin"></i></div>
+        <div class="social-btn" title="Twitter / X"><i class="ti ti-brand-x"></i></div>
+        <div class="social-btn" title="YouTube"><i class="ti ti-brand-youtube"></i></div>
+        <div class="social-btn" title="Instagram"><i class="ti ti-brand-instagram"></i></div>
+        <div class="social-btn" title="WhatsApp"><i class="ti ti-brand-whatsapp"></i></div>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Product</div>
+      <ul class="footer-links">
+        <li><a href="#">Features</a></li>
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#">Changelog</a></li>
+        <li><a href="#">Roadmap</a></li>
+        <li><a href="#">Status page</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Modules</div>
+      <ul class="footer-links">
+        <li><a href="#">Employees</a></li>
+        <li><a href="#">Departments</a></li>
+        <li><a href="#">Attendance</a></li>
+        <li><a href="#">Payroll</a></li>
+        <li><a href="#">Leave mgmt</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="#">About us</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Privacy policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 EMS Pro. Built with ❤️ for Indian workplaces.</div>
+    <div class="footer-tags">
+      <span class="f-tag">v2.4.1</span>
+      <span class="f-tag">SOC 2 Compliant</span>
+      <span class="f-tag">🇮🇳 Made in India</span>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<div class="wa-float">
+  <div class="wa-tooltip">💬 Chat with us on WhatsApp</div>
+  <button class="wa-btn" onclick="showToast('Opening WhatsApp support…')" title="WhatsApp support">
+    <i class="ti ti-brand-whatsapp"></i>
+  </button>
+</div>
+
+<script>
+// ── DATA ──
+const empData=[
+  {id:'EMP-002',name:'Priya Singh',dept:'Engineering',role:'Frontend Dev',status:'Active'},
+  {id:'EMP-003',name:'Amit Verma',dept:'Marketing',role:'Marketing Lead',status:'Active'},
+  {id:'EMP-004',name:'Sunita Rao',dept:'HR',role:'HR Manager',status:'Active'},
+  {id:'EMP-005',name:'Rohit Gupta',dept:'Finance',role:'Accountant',status:'Active'},
+  {id:'EMP-006',name:'Kavita Joshi',dept:'Engineering',role:'Backend Dev',status:'Active'},
+  {id:'EMP-007',name:'Deepak Kumar',dept:'Operations',role:'Ops Manager',status:'Active'},
+  {id:'EMP-008',name:'Anjali Mehta',dept:'Design',role:'UI Designer',status:'On Leave'},
+];
+const avColors=[['#dbeafe','#1e40af'],['#dcfce7','#166534'],['#fef9c3','#854d0e'],['#fee2e2','#991b1b'],['#ede9fe','#4c1d95'],['#ecfdf5','#065f46'],['#fdf4ff','#6b21a8']];
+function av(n,i){let c=avColors[i%avColors.length];return `<div style="width:28px;height:28px;border-radius:50%;background:${c[0]};color:${c[1]};display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-right:7px;vertical-align:middle">${n.split(' ').map(x=>x[0]).join('').slice(0,2)}</div>`}
+
+const depts=[
+  {name:'Engineering',count:2,head:'Priya Singh',icon:'ti-code',bg:'#dbeafe',clr:'#1e40af'},
+  {name:'Marketing',count:1,head:'Amit Verma',icon:'ti-speakerphone',bg:'#dcfce7',clr:'#166534'},
+  {name:'HR',count:1,head:'Sunita Rao',icon:'ti-heart',bg:'#fdf4ff',clr:'#6b21a8'},
+  {name:'Finance',count:1,head:'Rohit Gupta',icon:'ti-chart-pie',bg:'#fef9c3',clr:'#854d0e'},
+  {name:'Operations',count:1,head:'Deepak Kumar',icon:'ti-settings',bg:'#ecfdf5',clr:'#065f46'},
+  {name:'Design',count:1,head:'Anjali Mehta',icon:'ti-palette',bg:'#fee2e2',clr:'#991b1b'},
+];
+const attData=[
+  {name:'Priya Singh',dept:'Engineering',in:'09:02',out:'18:15',s:'Present'},
+  {name:'Amit Verma',dept:'Marketing',in:'09:30',out:'18:00',s:'Present'},
+  {name:'Sunita Rao',dept:'HR',in:'08:55',out:'17:50',s:'Present'},
+  {name:'Rohit Gupta',dept:'Finance',in:'—',out:'—',s:'Absent'},
+  {name:'Kavita Joshi',dept:'Engineering',in:'10:00',out:'18:00',s:'WFH'},
+  {name:'Deepak Kumar',dept:'Operations',in:'09:00',out:'14:00',s:'Half Day'},
+  {name:'Anjali Mehta',dept:'Design',in:'—',out:'—',s:'Absent'},
+];
+const salData=[
+  {name:'Priya Singh',basic:42000,allow:8000,ded:5000,s:'Paid'},
+  {name:'Amit Verma',basic:38000,allow:6000,ded:4500,s:'Paid'},
+  {name:'Sunita Rao',basic:45000,allow:8000,ded:5500,s:'Paid'},
+  {name:'Rohit Gupta',basic:32000,allow:5000,ded:4000,s:'Pending'},
+  {name:'Kavita Joshi',basic:40000,allow:7000,ded:4800,s:'Paid'},
+  {name:'Deepak Kumar',basic:50000,allow:10000,ded:6500,s:'Pending'},
+  {name:'Anjali Mehta',basic:36000,allow:5500,ded:4200,s:'Paid'},
+];
+let lvData=[
+  {name:'Anjali Mehta',type:'Sick Leave',dates:'Jun 10–13',days:4,s:'Pending'},
+  {name:'Rohit Gupta',type:'Casual Leave',dates:'Jun 15',days:1,s:'Pending'},
+  {name:'Amit Verma',type:'Earned Leave',dates:'May 20–25',days:6,s:'Approved'},
+  {name:'Kavita Joshi',type:'Casual Leave',dates:'Apr 10–11',days:2,s:'Rejected'},
+];
+
+// ── RENDER FUNCTIONS ──
+function renderEmp(data){
+  document.getElementById('emp-body').innerHTML=(data||empData).map((e,i)=>`<tr>
+    <td style="font-size:11px;color:var(--text3);font-weight:700">${e.id}</td>
+    <td>${av(e.name,i)}<span style="font-weight:700">${e.name}</span></td>
+    <td>${e.dept}</td><td style="font-size:12px;color:var(--text2)">${e.role}</td>
+    <td><span class="pill ${e.status==='Active'?'pill-g':e.status==='On Leave'?'pill-y':'pill-r'}">${e.status}</span></td>
+    <td><button class="mini-btn" onclick="showToast('Editing ${e.name}…')">Edit</button> <button class="mini-btn" onclick="showToast('Viewing ${e.name} profile…')">View</button></td>
+  </tr>`).join('');
+}
+function searchEmp(q){renderEmp((q?empData.filter(e=>(e.name+e.dept+e.id).toLowerCase().includes(q.toLowerCase())):empData));}
+function addEmpDemo(){
+  const names=['Ravi Tiwari (HR)','Neeta Bose (Design)','Suresh Nair (Engineering)','Pooja Agarwal (Finance)'];
+  const pick=names[Math.floor(Math.random()*names.length)];
+  showToast('✅ Employee '+pick+' added successfully!');
+}
+
+function renderDepts(){
+  document.getElementById('dept-grid').innerHTML=depts.map(d=>`
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.1rem;cursor:default;transition:all .2s" onmouseenter="this.style.borderColor='var(--blue)'" onmouseleave="this.style.borderColor='var(--border)'">
+      <div style="width:42px;height:42px;border-radius:11px;background:${d.bg};display:flex;align-items:center;justify-content:center;margin-bottom:.85rem">
+        <i class="ti ${d.icon}" style="font-size:20px;color:${d.clr}"></i>
+      </div>
+      <div style="font-size:14px;font-weight:800;color:var(--text)">${d.name}</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:3px">${d.count} employee${d.count>1?'s':''}</div>
+      <div style="font-size:11px;color:var(--text3)">Head: ${d.head.split(' ')[0]} ${d.head.split(' ')[1]}</div>
+    </div>`).join('');
+}
+
+function renderAtt(){
+  document.getElementById('att-body').innerHTML=attData.map(a=>`<tr>
+    <td style="font-weight:700">${a.name}</td><td style="color:var(--text2)">${a.dept}</td>
+    <td style="font-family:monospace;font-size:12px">${a.in}</td>
+    <td style="font-family:monospace;font-size:12px">${a.out}</td>
+    <td><span class="pill ${a.s==='Present'?'pill-g':a.s==='Absent'?'pill-r':a.s==='WFH'?'pill-b':'pill-y'}">${a.s}</span></td>
+  </tr>`).join('');
+}
+
+function renderSal(){
+  document.getElementById('sal-body').innerHTML=salData.map(s=>`<tr>
+    <td style="font-weight:700">${s.name}</td>
+    <td>₹${s.basic.toLocaleString('en-IN')}</td>
+    <td style="color:#16a34a;font-weight:600">+₹${s.allow.toLocaleString('en-IN')}</td>
+    <td style="color:#dc2626;font-weight:600">-₹${s.ded.toLocaleString('en-IN')}</td>
+    <td style="font-weight:800;color:var(--blue)">₹${(s.basic+s.allow-s.ded).toLocaleString('en-IN')}</td>
+    <td><span class="pill ${s.s==='Paid'?'pill-g':'pill-y'}">${s.s}</span></td>
+  </tr>`).join('');
+}
+
+function renderLv(){
+  document.getElementById('lv-body').innerHTML=lvData.map((l,i)=>`<tr>
+    <td style="font-weight:700">${l.name}</td>
+    <td style="font-size:12px">${l.type}</td>
+    <td style="font-size:12px;color:var(--text2)">${l.dates}</td>
+    <td style="font-weight:700">${l.days}</td>
+    <td><span class="pill ${l.s==='Approved'?'pill-g':l.s==='Rejected'?'pill-r':'pill-y'}">${l.s}</span></td>
+    <td>${l.s==='Pending'?`<button class="mini-btn" onclick="approveLv(${i})">Approve</button> <button class="mini-btn" onclick="rejectLv(${i})">Reject</button>`:'<span style="color:var(--text3);font-size:12px">—</span>'}</td>
+  </tr>`).join('');
+}
+function approveLv(i){lvData[i].s='Approved';renderLv();showToast('✅ Leave approved for '+lvData[i].name);}
+function rejectLv(i){lvData[i].s='Rejected';renderLv();showToast('❌ Leave rejected for '+lvData[i].name);}
+
+// ── TABS ──
+function setTab(n){
+  document.querySelectorAll('.apt').forEach((t,i)=>t.classList.toggle('active',i===n));
+  document.querySelectorAll('.ap-panel').forEach((p,i)=>p.classList.toggle('active',i===n));
+}
+
+// ── NAVIGATION ──
+function goTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+
+// ── THEME ──
+let dark=false;
+function toggleTheme(){
+  dark=!dark;
+  document.documentElement.setAttribute('data-theme',dark?'dark':'');
+  document.getElementById('theme-icon').className=dark?'ti ti-moon':'ti ti-sun';
+}
+
+// ── FAQ ──
+function toggleFaq(el){
+  document.querySelectorAll('.faq-item').forEach(f=>{if(f!==el)f.classList.remove('open');});
+  el.classList.toggle('open');
+}
+
+// ── PASSWORD STRENGTH ──
+function pwStr(v){
+  let s=0;if(v.length>=8)s+=25;if(/[A-Z]/.test(v))s+=25;if(/[0-9]/.test(v))s+=25;if(/[^A-Za-z0-9]/.test(v))s+=25;
+  let b=document.getElementById('pw-bar'),h=document.getElementById('pw-hint');
+  b.style.width=s+'%';
+  b.style.background=s<=25?'#ef4444':s<=50?'#f59e0b':s<=75?'#185FA5':'#22c55e';
+  h.textContent=s===0?'Enter a new password':s<=25?'Weak password':s<=50?'Fair — add uppercase & symbols':s<=75?'Good — add a special character':'Strong password ✓';
+}
+
+// ── TOAST ──
+function showToast(msg){
+  let t=document.getElementById('alert-toast');
+  t.textContent=msg;t.style.display='block';
+  clearTimeout(window._toast);
+  window._toast=setTimeout(()=>t.style.display='none',3000);
+}
+
+// ── COUNTER ANIMATION ──
+function animCount(id,target,decimals,dur){
+  let el=document.getElementById(id),start=0,steps=60,step=target/steps;
+  let iv=setInterval(()=>{
+    start=Math.min(start+step,target);
+    el.textContent=decimals?start.toFixed(1):Math.round(start);
+    if(start>=target)clearInterval(iv);
+  },dur/steps);
+}
+let counted=false;
+const statObs=new IntersectionObserver(entries=>{
+  if(entries[0].isIntersecting&&!counted){
+    counted=true;
+    animCount('cnt1',500,false,1800);
+    animCount('cnt2',50,false,1800);
+    animCount('cnt3',99.9,true,2000);
+    animCount('cnt4',4.9,true,1800);
+  }
+},{threshold:.3});
+statObs.observe(document.getElementById('stats-sec'));
+
+// ── INIT ──
+renderEmp();renderDepts();renderAtt();renderSal();renderLv();
+</script>
+</body>
+</html>
